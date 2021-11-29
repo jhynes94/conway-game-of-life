@@ -12,3 +12,7 @@ Any dead cell with exactly three live neighbours becomes a live cell, as if by r
 To use:
 npm install
 npm run dev
+
+
+## To-do
+Make canvas elements look sharper
