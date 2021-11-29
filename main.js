@@ -1,7 +1,7 @@
 import './style.css'
 
 
-let conwayModel = [[]]
+let conwayModel = [[  ]]
 
 
 
