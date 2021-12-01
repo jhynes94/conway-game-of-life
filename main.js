@@ -6,9 +6,12 @@ const yCell = 25
 
 let conwayModel = []
 
-// Setup a random Cell structure
-// 0 == Dead
-// 1 == Alive
+/*
+Setup a random Cell structure in model
+This runs only once at the start of the program
+0 == Dead
+1 == Alive
+*/
 for (let x = 0; x < xCell; x++) {
     conwayModel[x] = []
     for (let y = 0; y < yCell; y++) {
@@ -21,7 +24,52 @@ console.log(conwayModel)
 
 
 function updateModel(conwayModel) {
-    console.log("Model Updated")
+
+    let futureModel = []
+    
+    for (let x = 0; x < xCell; x++) {
+        futureModel[x] = []
+        for (let y = 0; y < yCell; y++) {
+            
+            // Gather number of live cells around cell
+            // There are eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.
+            let numberLiveCells = 0
+            for(let i=-1; i<=1; i++){
+                for(let j=-1; j<=1; j++){
+                    //Eliminate center cell search
+                    if(!(j == 0 && i == 0)){
+                        //Prevent searching null cell positions /////////////////////////FIX THIS NEXT LINE//////////////////
+                        if(x+i > 0 && y+j > 0 && x+i < xCell && y+j < yCell){
+                            numberLiveCells += conwayModel[x + i][y + j]
+                        }
+                    }
+                }   
+            }
+
+            // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+            if(conwayModel[x][y] == 1 && numberLiveCells < 2){
+                conwayModel[x][y] = 0
+            }
+
+            // Any live cell with two or three live neighbours lives on to the next generation.
+            else if(conwayModel[x][y] == 1 && numberLiveCells < 2){
+                conwayModel[x][y] = 0
+            }
+
+            // Any live cell with more than three live neighbours dies, as if by overpopulation.
+            else if(conwayModel[x][y] == 1 && numberLiveCells < 2){
+                conwayModel[x][y] = 0
+            }
+            
+            // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+            else if(conwayModel[x][y] == 0 && numberLiveCells < 2){
+                conwayModel[x][y] = 0
+            }
+
+        }
+    }
+    
+    return futureModel
 }
 
 
@@ -61,7 +109,7 @@ function Draw(conwayModel) {
 //Change true to when there are no more cells
 function gameLoop() {
     Draw(conwayModel)
-    updateModel(conwayModel)
+    conwayModel = updateModel(conwayModel)
 }
 
 setInterval(gameLoop, 1000);
