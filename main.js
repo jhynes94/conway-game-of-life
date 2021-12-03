@@ -38,32 +38,37 @@ function updateModel(conwayModel) {
                 for(let j=-1; j<=1; j++){
                     //Eliminate center cell search
                     if(!(j == 0 && i == 0)){
-                        //Prevent searching null cell positions /////////////////////////FIX THIS NEXT LINE//////////////////
+                        //Prevent searching null cell positions
                         if(x+i > 0 && y+j > 0 && x+i < xCell && y+j < yCell){
                             numberLiveCells += conwayModel[x + i][y + j]
                         }
                     }
-                }   
+                }
             }
+            const liveOrDead = conwayModel[x][y]
 
             // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-            if(conwayModel[x][y] == 1 && numberLiveCells < 2){
-                conwayModel[x][y] = 0
+            if(liveOrDead == 1 && numberLiveCells < 2){
+                futureModel[x][y] = 0
             }
 
             // Any live cell with two or three live neighbours lives on to the next generation.
-            else if(conwayModel[x][y] == 1 && numberLiveCells < 2){
-                conwayModel[x][y] = 0
+            else if(liveOrDead == 1 && (numberLiveCells == 2 || numberLiveCells == 3)){
+                futureModel[x][y] = 1
             }
 
             // Any live cell with more than three live neighbours dies, as if by overpopulation.
-            else if(conwayModel[x][y] == 1 && numberLiveCells < 2){
-                conwayModel[x][y] = 0
+            else if(liveOrDead == 1 && numberLiveCells > 3){
+                futureModel[x][y] = 0
             }
             
             // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-            else if(conwayModel[x][y] == 0 && numberLiveCells < 2){
-                conwayModel[x][y] = 0
+            else if(liveOrDead == 0 && numberLiveCells == 3){
+                futureModel[x][y] = 1
+            }
+            //Keep it dead
+            else {
+                futureModel[x][y] = 0
             }
 
         }
@@ -110,6 +115,7 @@ function Draw(conwayModel) {
 function gameLoop() {
     Draw(conwayModel)
     conwayModel = updateModel(conwayModel)
+    console.log(conwayModel)
 }
 
-setInterval(gameLoop, 1000);
+setInterval(gameLoop, 200);
