@@ -88,22 +88,21 @@ function Draw(conwayModel) {
     console.log(ctx)
 
     ctx.strokeStyle = "lightgray";
-    ctx.lineWidth = 1;
-
     ctx.lineWidth = 3;
 
+    const cellHeight = canvas.height/yCell
+    const cellWidth = canvas.width/xCell
 
     for (let x = 0; x < xCell; x++) {
         for (let y = 0; y < yCell; y++) {
             if (conwayModel[x][y] == 1) {
-                ctx.fillStyle = "red";
+                ctx.fillStyle = "#97D22D";
             }
             else {
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "#682DD2";
             }
-
-            //fillRect(x,y,width,height)
-            ctx.fillRect(10 * x, 10 * y, 10, 10);
+            //Rectangle is (x, y, width, height);
+            ctx.fillRect(cellWidth * x, cellHeight * y, cellWidth+2, cellHeight+2);
         }
     }
 
